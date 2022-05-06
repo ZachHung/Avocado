@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <section
-      className='footer bg-img'
-      style={{
-        backgroundImage: `url(assets/nordwood-themes-pYWrdKO5ksI-unsplash.jpg)`,
-      }}>
+    <section className='footer'>
       <div className='container'>
         <div className='row'>
           <div className='col-6 col-xs-12'>

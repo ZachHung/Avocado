@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 const navItem = [
   { id: "home", name: "Trang chủ", icon: <BiHome /> },
-  { id: "about", name: "Về chúng tôi", icon: <BiWinkSmile /> },
+  { id: "about", name: "Giới thiệu", icon: <BiWinkSmile /> },
   { id: "product-menu", name: "Sản phẩm", icon: <BiFoodMenu /> },
   { id: "testimonial", name: "Đánh giá", icon: <BiCommentDetail /> },
 ];
@@ -52,13 +52,13 @@ const Header = () => {
           </Link>
           <div className='menu h-xs'>
             {navItem.map((item) => (
-              <a href={`#` + item.id} key={item.id}>
+              <Link to={`/#` + item.id} key={item.id}>
                 <div
                   className={`menu-item ${active === item.id ? "active" : ""}`}
                   onClick={() => setActive(item.id)}>
                   {item.name}
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
           <div className='right-menu'>

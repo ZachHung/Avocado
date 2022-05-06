@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
 import { BiCartAlt } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -76,7 +77,8 @@ const Products = () => {
 
           <div className='food-item-wrap all'>
             {filteredProcducts.map((item, index) => (
-              <div
+              <Link
+                to={"/product/" + item._id}
                 className='food-item'
                 data-aos='fade-up'
                 data-aos-duration='500'
@@ -99,7 +101,7 @@ const Products = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
