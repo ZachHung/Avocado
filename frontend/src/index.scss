@@ -1,0 +1,36 @@
+:root {
+  --primary-color: #116530;
+  --background-color: #f0f3f7;
+  --light-grey: #9da2ad;
+  --secon-color: #ffe957;
+  --grey: #7a7a7b;
+  --white: #ffffff;
+}
+
+* {
+  font-family: "Noto Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  color: unset;
+  text-decoration: none;
+}
+
+body,
+html {
+  background-color: var(--background-color);
+  scroll-behavior: smooth;
+  position: relative;
+  overflow-x: hidden;
+}
+button,
+input {
+  border: 0;
+  padding: 0;
+}
+button {
+  cursor: pointer;
+}
