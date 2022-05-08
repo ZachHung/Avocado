@@ -9,6 +9,8 @@ import React from "react";
 import ProductDetail from "./pages/ProductDetail";
 import ScrollToTop from "./components/ScrollToTop";
 import { useEffect } from "react";
+import { ToastContainer } from "react-toastify";
+import Purchase from "./pages/Purchase";
 
 const aosSettings = {
   offset: 120,
@@ -47,9 +49,21 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='checkout' element={<CheckoutPage />} />
         <Route path='/product/:id' element={<ProductDetail />} />
+        <Route path='/purchase' element={<Purchase />} />
       </Routes>
       <ScrollToTop />
       <Footer />
+      <ToastContainer
+        position='bottom-right'
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </>
   );
 }

@@ -58,7 +58,33 @@ $aos-distance: 300px; // It has to be above import
   background-color: var(--secon-color);
   border-radius: 1rem;
 }
-
+.right-menu {
+  position: relative;
+  .cart-badge {
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    height: calc(1.5em + 2px);
+    min-width: calc(1.5em + 2px);
+    display: flex;
+    padding: 0.45em;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100vh;
+    font-size: 0.825rem;
+    background-color: var(--secon-color);
+    top: -0.65em;
+    left: -0.75em;
+    position: absolute;
+  }
+  .cart-btn {
+    border: 1px solid white;
+    border-radius: 100vh;
+    &:hover {
+      border: 1px solid var(--primary-color);
+      border-radius: 100vh;
+    }
+  }
+}
 .cart-btn {
   width: 3rem;
   height: 3rem;
@@ -216,6 +242,7 @@ section {
   height: 28rem;
   padding: 1rem;
   .cart-btn {
+    z-index: 10;
     color: var(--primary-color);
   }
 }
@@ -435,7 +462,7 @@ section {
 /* Extra small devices (phones, 739px and down) */
 @media only screen and (max-width: 739px) {
   * {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   h1 {

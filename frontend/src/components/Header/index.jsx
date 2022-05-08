@@ -6,6 +6,7 @@ import {
   BiCommentDetail,
   BiCartAlt,
 } from "react-icons/bi";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const navItem = [
@@ -16,6 +17,7 @@ const navItem = [
 ];
 
 const Header = () => {
+  const totalQuanity = useSelector((state) => state.totalQuanity);
   const [active, setActive] = useState(navItem[0].id);
 
   return (
@@ -33,13 +35,15 @@ const Header = () => {
                 .indexOf(active) *
                 25 +
               "%",
-          }}></div>
+          }}
+        ></div>
         {navItem.map((item) => (
           <div
             className={`mb-nav-item ${active === item.id ? "active" : ""}`}
             onClick={() => setActive(item.id)}
-            key={item.id}>
-            <a href={"#" + item.id}>{item.icon}</a>
+            key={item.id}
+          >
+            <Link to={"/#" + item.id}>{item.icon}</Link>
           </div>
         ))}
       </div>
@@ -55,16 +59,22 @@ const Header = () => {
               <Link to={`/#` + item.id} key={item.id}>
                 <div
                   className={`menu-item ${active === item.id ? "active" : ""}`}
-                  onClick={() => setActive(item.id)}>
+                  onClick={() => setActive(item.id)}
+                >
                   {item.name}
                 </div>
               </Link>
             ))}
           </div>
           <div className='right-menu'>
-            <div className='cart-btn'>
+            <Link
+              to='/checkout'
+              className='cart-btn'
+              onClick={() => setActive("")}
+            >
               <BiCartAlt />
-            </div>
+            </Link>
+            <span className='cart-badge'>{totalQuanity} </span>
           </div>
         </div>
       </div>

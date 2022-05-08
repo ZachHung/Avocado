@@ -4,6 +4,10 @@ import { useState } from "react";
 import axios from "axios";
 import { BiCartAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { currentChange } from "../../utils";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cartSlice";
+import { toast } from "react-toastify";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -11,6 +15,30 @@ const filterProducts = (products, category) => {
   return category === "all"
     ? products
     : products.filter((product) => product.category === category);
+};
+
+const CartBtn = ({ item }) => {
+  const dispatch = useDispatch();
+  const notify = () =>
+    toast.success("Đã thêm vào giỏ hàng", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  const handleAddItem = (e, item) => {
+    e.preventDefault();
+    dispatch(addToCart({ ...item, quanity: 1 }));
+    notify();
+  };
+  return (
+    <div className='cart-btn' onClick={(e) => handleAddItem(e, item)}>
+      <BiCartAlt />
+    </div>
+  );
 };
 
 const Products = () => {
@@ -40,7 +68,8 @@ const Products = () => {
       id='product-menu'
       style={{
         backgroundImage: `url(assets/katherine-chase-4MMK78S7eyk-unsplash.jpg`,
-      }}>
+      }}
+    >
       <div className='container'>
         <div className='food-menu'>
           <h1>
@@ -56,7 +85,8 @@ const Products = () => {
             <div data-aos='zoom-in' data-aos-duration='350'>
               <button
                 className={active === "all" ? "active" : ""}
-                onClick={() => setActive("all")}>
+                onClick={() => setActive("all")}
+              >
                 Tất cả
               </button>
             </div>
@@ -65,10 +95,12 @@ const Products = () => {
                 key={index}
                 data-aos='zoom-in'
                 data-aos-delay={(index + 1) * 200}
-                data-aos-duration='350'>
+                data-aos-duration='350'
+              >
                 <button
                   className={active === type ? "active" : ""}
-                  onClick={() => setActive(type)}>
+                  onClick={() => setActive(type)}
+                >
                   {type}
                 </button>
               </div>
@@ -82,23 +114,23 @@ const Products = () => {
                 className='food-item'
                 data-aos='fade-up'
                 data-aos-duration='500'
-                key={index}>
+                key={index}
+              >
                 <div className='item-wrap'>
                   <div className='item-img'>
                     <div
                       className='img-holder bg-img'
                       style={{
                         backgroundImage: `url(${item.image})`,
-                      }}></div>
+                      }}
+                    ></div>
                   </div>
                   <div className='item-info'>
                     <div>
                       <h3>{item.name}</h3>
-                      <span>{item.price}</span> VND
+                      <span>{currentChange(item.price)}</span>
                     </div>
-                    <div className='cart-btn'>
-                      <BiCartAlt />
-                    </div>
+                    <CartBtn item={item} />
                   </div>
                 </div>
               </Link>

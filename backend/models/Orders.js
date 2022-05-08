@@ -4,6 +4,9 @@ const Schema = mongoose.Schema;
 const Orders = new Schema(
   {
     customerInfo: {
+      name: String,
+      phoneNumber: String,
+      email: String,
       province: String,
       district: String,
       ward: String,
@@ -12,7 +15,7 @@ const Orders = new Schema(
     products: [
       {
         productId: { type: Schema.Types.ObjectId, ref: "products" },
-        quantity: Number,
+        quanity: Number,
       },
     ],
   },
