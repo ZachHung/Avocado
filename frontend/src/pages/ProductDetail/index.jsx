@@ -30,7 +30,7 @@ const ProductDetail = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_API_URL + "product/" + id)
+      .get(process.env.REACT_APP_API_URL + "/product/" + id)
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err));
   }, [id]);

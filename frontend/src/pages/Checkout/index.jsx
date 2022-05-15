@@ -62,7 +62,7 @@ const CheckoutPage = () => {
   const handleFormSubmit = (values) => {
     dispatch(setFormData({ ...values }));
     if (payment === "cod")
-      axios.post(`${process.env.REACT_APP_API_URL}order`, values).then(() => {
+      axios.post(`${process.env.REACT_APP_API_URL}/order`, values).then(() => {
         navigate("../purchase");
       });
     else {
@@ -75,7 +75,7 @@ const CheckoutPage = () => {
       };
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}vnpay-create-payment-url`,
+          `${process.env.REACT_APP_API_URL}/vnpay-create-payment-url`,
           formData
         )
         .then((res) => window.location.replace(res.data))

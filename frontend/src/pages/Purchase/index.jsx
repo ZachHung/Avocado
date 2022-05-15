@@ -19,7 +19,7 @@ const Purchase = () => {
     setForm(formData);
     dispatch(resetForm());
     axios
-      .get(`${process.env.REACT_APP_API_URL}vnpay-return?${searchParams}`)
+      .get(`${process.env.REACT_APP_API_URL}/vnpay-return?${searchParams}`)
       .then((res) => {
         setReturnData(res.data);
         return res.data;
@@ -28,7 +28,7 @@ const Purchase = () => {
         (data) =>
           data.message === "Success" &&
           axios
-            .post(`${process.env.REACT_APP_API_URL}order`, formData)
+            .post(`${process.env.REACT_APP_API_URL}/order`, formData)
             .catch((err) => console.log(err))
       )
       .catch((err) => console.log(err));

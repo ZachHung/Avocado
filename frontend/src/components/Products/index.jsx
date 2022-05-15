@@ -49,7 +49,7 @@ const Products = () => {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}product`)
+      .get(`${apiUrl}/product`)
       .then((res) => {
         setProducts(res.data);
         let unique = [...new Set(res.data.map((item) => item.category))];
