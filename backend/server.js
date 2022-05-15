@@ -1,5 +1,4 @@
 const express = require("express");
-const morgan = require("morgan");
 const cors = require("cors");
 const path = require("path");
 const app = express();
@@ -18,7 +17,10 @@ if (process.env.NODE_ENV === "production") {
     })
   );
 }
-process.env.NODE_ENV === "development" && app.use(morgan("combined"));
+if (process.env.NODE_ENV === "development") {
+  const morgan = require("morgan");
+  app.use(morgan("combined"));
+}
 app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json({ limit: "1mb" }));
@@ -35,7 +37,6 @@ route(app);
 app.use(express.static(path.join(__dirname, "public")));
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/build")));
-
   app.get("*", (req, res) =>
     res.sendFile(
       path.resolve(__dirname, "../", "frontend", "build", "index.html")
