@@ -1,18 +1,33 @@
 .content.vnpay {
-  align-items: center;
+  flex-direction: row;
   .empty-cart {
-    gap: 2rem;
+    color: #a83534;
+  }
+  .box {
+    padding: 2rem;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
   }
   h1 {
-    font-size: 3rem;
+    text-align: center;
+    font-size: 2rem;
     font-weight: bold;
   }
   svg {
-    width: 4.8rem;
-    height: 4.8rem;
-    aspect-ratio: 1/1;
+    width: 3rem;
+    height: 3rem;
   }
   .confirm-btn {
     width: unset;
+  }
+  .order-detail {
+    color: var(--grey);
+    h3 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
   }
 }

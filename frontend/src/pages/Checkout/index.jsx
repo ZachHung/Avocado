@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ModalPopUp from "../../components/Modal";
 import { FaRegSadTear, FaTruck, FaTimes } from "react-icons/fa";
 import { BiMinus, BiPlus } from "react-icons/bi";
@@ -10,7 +10,12 @@ import { Formik } from "formik";
 import "./style.scss";
 import { useRef } from "react";
 import axios from "axios";
-import { changeProductQuantity, removeFromCart } from "../../redux/cartSlice";
+import {
+  changeProductQuantity,
+  removeFromCart,
+  resetCart,
+  setFormData,
+} from "../../redux/cartSlice";
 import { toast } from "react-toastify";
 
 const payments = [
@@ -45,6 +50,7 @@ const CheckoutPage = () => {
   const [payment, setPayment] = useState(null);
   const [deleteItem, setDeleteItem] = useState("");
   const cart = useSelector((state) => state.cart);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const formRef = useRef();
 
@@ -54,7 +60,28 @@ const CheckoutPage = () => {
       dispatch(changeProductQuantity({ newQuanity: target.value, _id }));
   };
   const handleFormSubmit = (values) => {
-    axios.post(`${process.env.REACT_APP_API_URL}order`, values);
+    dispatch(setFormData({ ...values }));
+    if (payment === "cod")
+      axios.post(`${process.env.REACT_APP_API_URL}order`, values).then(() => {
+        navigate("../purchase");
+      });
+    else {
+      let formData = {
+        amount: getTotal(cart) + 15000,
+        orderDescription: `Thanh toan don hang ${
+          getTotal(cart) + 15000
+        } VND tai Avocado`,
+        orderType: 100000,
+      };
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}vnpay-create-payment-url`,
+          formData
+        )
+        .then((res) => window.location.replace(res.data))
+        .catch((err) => console.log(err));
+    }
+    dispatch(resetCart());
   };
 
   const validateForm = (values) => {
@@ -102,11 +129,7 @@ const CheckoutPage = () => {
             <h2>Giỏ hàng</h2>
           </div>
           {!cart.length ? (
-            <div
-              className='empty-cart'
-              data-aos='fade-left'
-              data-aos-duration='800'
-            >
+            <div className='empty-cart'>
               <FaRegSadTear className='faSadTear' />
               <h2 className='error__title'>Giỏ hàng của bạn đang trống</h2>
               <h3 className='error__subtitle'>
@@ -193,7 +216,7 @@ const CheckoutPage = () => {
                     Phí vận chuyển
                   </dt>
                   <dd className='order__summary--decription'>
-                    {currentChange(25000)}
+                    {currentChange(15000)}
                   </dd>
                 </dl>
               </div>
@@ -203,7 +226,7 @@ const CheckoutPage = () => {
                     Tổng cộng
                   </dt>
                   <dd className='order__summary--decription'>
-                    {currentChange(getTotal(cart) + 25000)}
+                    {currentChange(getTotal(cart) + 15000)}
                   </dd>
                 </dl>
               </div>
@@ -243,14 +266,7 @@ const CheckoutPage = () => {
                   validate={(values) => validateForm(values)}
                   onSubmit={(values) => handleFormSubmit(values)}
                 >
-                  {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                  }) => (
+                  {({ values, errors, touched, handleChange, handleBlur }) => (
                     <form className='row' id='checkout-form'>
                       <div className='form-group col-6'>
                         <input
@@ -403,7 +419,7 @@ const CheckoutPage = () => {
                     </span>
                     <span className={"methods__icon"}>
                       {item.img ? (
-                        <img src={`/images/${item.img}`} alt='' />
+                        <img src={`/assets/${item.img}`} alt='' />
                       ) : (
                         item.icon
                       )}

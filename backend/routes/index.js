@@ -1,6 +1,8 @@
 const Products = require("../models/Products");
 const Addresss = require("../address.json");
 const Orders = require("../models/Orders");
+const CryptoJS = require("crypto-js");
+const moment = require("moment");
 
 function route(app) {
   app.get("/api/product", (req, res, next) => {
@@ -43,14 +45,15 @@ function route(app) {
 
     var createDate = moment(date).format("YYYYMMDDHHmmss");
     var orderId = moment(date).format("HHmmss");
+
     var amount = req.body.amount;
     var bankCode = req.body.bankCode;
-
     var orderInfo = req.body.orderDescription;
     var orderType = req.body.orderType;
     var locale = req.body.language;
     if (!locale) locale = "vn";
     var currCode = "VND";
+
     var vnp_Params = {};
     vnp_Params["vnp_Version"] = "2.1.0";
     vnp_Params["vnp_Command"] = "pay";
@@ -110,5 +113,20 @@ function route(app) {
   app.get("/api", (req, res) => {
     res.send("API");
   });
+}
+function sortObject(obj) {
+  var sorted = {};
+  var str = [];
+  var key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      str.push(encodeURIComponent(key));
+    }
+  }
+  str.sort();
+  for (key = 0; key < str.length; key++) {
+    sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, "+");
+  }
+  return sorted;
 }
 module.exports = route;

@@ -394,7 +394,7 @@
   /* empty cart and error screens*/
 
   .empty-cart {
-    position: relative;
+    height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -402,9 +402,9 @@
     > :not(:last-child) {
       margin-bottom: 1rem;
     }
-  }
-  .empty-cart {
-    height: 60vh;
+    @include mobile {
+      height: 80vh;
+    }
   }
   .empty-cart .faSadTear {
     font-size: 10rem;
@@ -449,6 +449,8 @@
       }
       &__icon > * {
         border-radius: 5px;
+        width: $hw;
+        aspect-ratio: 1/1;
         font-size: $hw;
       }
       &__name {
