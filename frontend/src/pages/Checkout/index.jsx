@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
 import "./style.scss";
 import { useRef } from "react";
-import axios from "axios";
+import { Request } from "../../utils";
 import {
   changeProductQuantity,
   removeFromCart,
@@ -38,7 +38,7 @@ const getTotal = (cart) => {
 const notify = () =>
   toast.success("Đã xoá khỏi giỏ hàng", {
     position: "bottom-right",
-    autoClose: 3000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -62,7 +62,7 @@ const CheckoutPage = () => {
   const handleFormSubmit = (values) => {
     dispatch(setFormData({ ...values }));
     if (payment === "cod")
-      axios.post(`${process.env.REACT_APP_API_URL}/order`, values).then(() => {
+      Request.post(`/order`, values).then(() => {
         navigate("../purchase");
       });
     else {
@@ -73,11 +73,7 @@ const CheckoutPage = () => {
         } VND tai Avocado`,
         orderType: 100000,
       };
-      axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/vnpay-create-payment-url`,
-          formData
-        )
+      Request.post(`/vnpay-create-payment-url`, formData)
         .then((res) => window.location.replace(res.data))
         .catch((err) => console.log(err));
     }

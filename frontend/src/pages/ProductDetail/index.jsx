@@ -3,10 +3,9 @@ import "./style.scss";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import { BiCartAlt } from "react-icons/bi";
-import { currentChange, isValid } from "../../utils";
+import { currentChange, isValid, Request } from "../../utils";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
@@ -14,7 +13,7 @@ import { toast } from "react-toastify";
 const notify = () =>
   toast.success("Đã thêm vào giỏ hàng", {
     position: "bottom-right",
-    autoClose: 3000,
+    autoClose: 2000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
@@ -29,8 +28,7 @@ const ProductDetail = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(process.env.REACT_APP_API_URL + "/product/" + id)
+    Request.get(`/product/${id}`)
       .then((res) => setProduct(res.data))
       .catch((err) => console.log(err));
   }, [id]);

@@ -1,15 +1,12 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import axios from "axios";
 import { BiCartAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
-import { currentChange } from "../../utils";
+import { currentChange, Request } from "../../utils";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartSlice";
 import { toast } from "react-toastify";
-
-const apiUrl = process.env.REACT_APP_API_URL;
 
 const filterProducts = (products, category) => {
   return category === "all"
@@ -22,7 +19,7 @@ const CartBtn = ({ item }) => {
   const notify = () =>
     toast.success("Đã thêm vào giỏ hàng", {
       position: "bottom-right",
-      autoClose: 3000,
+      autoClose: 2000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -48,13 +45,11 @@ const Products = () => {
   const [filteredProcducts, setFilteredProducts] = useState(products);
 
   useEffect(() => {
-    axios
-      .get(`${apiUrl}/product`)
+    Request.get(`/product`)
       .then((res) => {
         setProducts(res.data);
         let unique = [...new Set(res.data.map((item) => item.category))];
         setTypes(unique);
-        console.log(5);
       })
       .catch((err) => console.log(err));
   }, []);

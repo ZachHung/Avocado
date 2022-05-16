@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
-import axios from "axios";
 import { resetForm } from "../../redux/cartSlice";
+import { Request } from "../../utils";
 
 const Purchase = () => {
   const [searchParams] = useSearchParams();
@@ -18,8 +18,7 @@ const Purchase = () => {
   useEffect(() => {
     setForm(formData);
     dispatch(resetForm());
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/vnpay-return?${searchParams}`)
+    Request.get(`/vnpay-return?${searchParams}`)
       .then((res) => {
         setReturnData(res.data);
         return res.data;
@@ -27,9 +26,7 @@ const Purchase = () => {
       .then(
         (data) =>
           data.message === "Success" &&
-          axios
-            .post(`${process.env.REACT_APP_API_URL}/order`, formData)
-            .catch((err) => console.log(err))
+          Request.post(`/order`, formData).catch((err) => console.log(err))
       )
       .catch((err) => console.log(err));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
