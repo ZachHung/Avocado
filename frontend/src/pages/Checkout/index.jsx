@@ -60,9 +60,14 @@ const CheckoutPage = () => {
       dispatch(changeProductQuantity({ newQuanity: target.value, _id }));
   };
   const handleFormSubmit = (values) => {
-    dispatch(setFormData({ ...values }));
+    dispatch(
+      setFormData({ ...values, Total: currentChange(getTotal(cart) + 15000) })
+    );
     if (payment === "cod")
-      Request.post(`/order`, values).then(() => {
+      Request.post(`/order`, {
+        ...values,
+        Total: currentChange(getTotal(cart) + 15000),
+      }).then(() => {
         navigate("../purchase");
       });
     else {
@@ -72,6 +77,8 @@ const CheckoutPage = () => {
           getTotal(cart) + 15000
         } VND tai Avocado`,
         orderType: 100000,
+        ...values,
+        Total: currentChange(getTotal(cart) + 15000),
       };
       Request.post(`/vnpay-create-payment-url`, formData)
         .then((res) => window.location.replace(res.data))
@@ -107,56 +114,56 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className='cartPage'>
+    <div className="cartPage">
       <ModalPopUp
-        name='giỏ hàng'
+        name="giỏ hàng"
         modalState={modalState}
         handelClickConfirm={handleRemoveModal}
         toogleState={setModalState}
       />
-      <section className='content'>
+      <section className="content">
         <aside
-          className='box cart-container'
-          data-aos='fade-right'
-          data-aos-duration='800'
+          className="box cart-container"
+          data-aos="fade-right"
+          data-aos-duration="800"
         >
-          <div className='box__heading'>
+          <div className="box__heading">
             <span>1</span>
             <h2>Giỏ hàng</h2>
           </div>
           {!cart.length ? (
-            <div className='empty-cart'>
-              <FaRegSadTear className='faSadTear' />
-              <h2 className='error__title'>Giỏ hàng của bạn đang trống</h2>
-              <h3 className='error__subtitle'>
+            <div className="empty-cart">
+              <FaRegSadTear className="faSadTear" />
+              <h2 className="error__title">Giỏ hàng của bạn đang trống</h2>
+              <h3 className="error__subtitle">
                 Hãy tiếp tục mua sắm để có thể thanh toán
               </h3>
-              <Link to='/#product-menu' className='cancel-btn'>
+              <Link to="/#product-menu" className="cancel-btn">
                 Mua sắm ngay
               </Link>
             </div>
           ) : (
             <>
-              <ul className='cart'>
+              <ul className="cart">
                 {cart.map((item, index) => (
-                  <li className='cart__item' key={index}>
-                    <div className='item__image'>
+                  <li className="cart__item" key={index}>
+                    <div className="item__image">
                       <Link to={`/product/${item._id}`}>
                         <img src={item.image} alt={item.name} />
                       </Link>
                     </div>
-                    <div className='item__detail'>
+                    <div className="item__detail">
                       <FaTimes
                         className={"fa-times"}
                         onClick={() => handleRemoveItem(item._id)}
                       />
-                      <h2 className='detail__product-name'>{item.name}</h2>
-                      <div className='detail__item-price'>
+                      <h2 className="detail__product-name">{item.name}</h2>
+                      <div className="detail__item-price">
                         {currentChange(item.price)}
                       </div>
-                      <div className='detail__quantity'>
+                      <div className="detail__quantity">
                         <button
-                          className='decrease-item'
+                          className="decrease-item"
                           disabled={item.quanity === 1}
                           onClick={() =>
                             dispatch(
@@ -170,18 +177,18 @@ const CheckoutPage = () => {
                           <BiMinus />
                         </button>
                         <input
-                          className='quantity'
-                          type='number'
-                          size='4'
-                          maxLength='12'
-                          min='1'
-                          max='999'
-                          step='1'
+                          className="quantity"
+                          type="number"
+                          size="4"
+                          maxLength="12"
+                          min="1"
+                          max="999"
+                          step="1"
                           value={item.quanity}
                           onChange={(e) => handleChange(e.target, item._id)}
                         />
                         <button
-                          className='increase-item'
+                          className="increase-item"
                           onClick={() =>
                             dispatch(
                               changeProductQuantity({
@@ -198,30 +205,30 @@ const CheckoutPage = () => {
                   </li>
                 ))}
               </ul>
-              <div className='order '>
-                <dl className='order__summary sub-total'>
-                  <dt className='order__summary--label primary-color'>
+              <div className="order ">
+                <dl className="order__summary sub-total">
+                  <dt className="order__summary--label primary-color">
                     Giỏ hàng
                   </dt>
-                  <dd className='order__summary--decription'>
+                  <dd className="order__summary--decription">
                     {currentChange(getTotal(cart))}
                   </dd>
                 </dl>
-                <dl className='order__summary shipping-fee'>
-                  <dt className='order__summary--label primary-color'>
+                <dl className="order__summary shipping-fee">
+                  <dt className="order__summary--label primary-color">
                     Phí vận chuyển
                   </dt>
-                  <dd className='order__summary--decription'>
+                  <dd className="order__summary--decription">
                     {currentChange(15000)}
                   </dd>
                 </dl>
               </div>
-              <div className='total'>
-                <dl className='order__summary'>
-                  <dt className='order__summary--label primary-color'>
+              <div className="total">
+                <dl className="order__summary">
+                  <dt className="order__summary--label primary-color">
                     Tổng cộng
                   </dt>
-                  <dd className='order__summary--decription'>
+                  <dd className="order__summary--decription">
                     {currentChange(getTotal(cart) + 15000)}
                   </dd>
                 </dl>
@@ -230,19 +237,19 @@ const CheckoutPage = () => {
           )}
         </aside>
         {cart.length ? (
-          <div className='right'>
+          <div className="right">
             <div
-              className='box delivery-info'
-              data-aos='fade-left'
-              data-aos-duration='800'
-              data-aos-delay='200'
+              className="box delivery-info"
+              data-aos="fade-left"
+              data-aos-duration="800"
+              data-aos-delay="200"
             >
-              <div className='box__heading'>
+              <div className="box__heading">
                 <span>2</span>
                 <h2>Thông tin vận chuyển</h2>
               </div>
-              <div className='user-information'>
-                <h2 className='sub-heading'>
+              <div className="user-information">
+                <h2 className="sub-heading">
                   Hãy chắc chắn rằng thông tin vận chuyển của bạn là chính xác
                 </h2>
                 <Formik
@@ -263,118 +270,118 @@ const CheckoutPage = () => {
                   onSubmit={(values) => handleFormSubmit(values)}
                 >
                   {({ values, errors, touched, handleChange, handleBlur }) => (
-                    <form className='row' id='checkout-form'>
-                      <div className='form-group col-6'>
+                    <form className="row" id="checkout-form">
+                      <div className="form-group col-6">
                         <input
                           className={errors.name && "invalid-input"}
-                          type='text'
-                          name='name'
-                          id='name'
-                          placeholder=' '
+                          type="text"
+                          name="name"
+                          id="name"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.name}
                         />
                         {errors.name && touched.name ? (
-                          <p className='invalid-input'>{errors.name}</p>
+                          <p className="invalid-input">{errors.name}</p>
                         ) : null}
-                        <label htmlFor='name'>Họ và tên</label>
+                        <label htmlFor="name">Họ và tên</label>
                       </div>
-                      <div className='form-group col-6'>
+                      <div className="form-group col-6">
                         <input
                           className={errors.phoneNumber && "invalid-input"}
-                          type='tel'
-                          id='phoneNumber'
-                          name='phoneNumber'
-                          placeholder=' '
+                          type="tel"
+                          id="phoneNumber"
+                          name="phoneNumber"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.phoneNumber}
                         />
                         {errors.phoneNumber && touched.phoneNumber ? (
-                          <p className='invalid-input'>{errors.phoneNumber}</p>
+                          <p className="invalid-input">{errors.phoneNumber}</p>
                         ) : null}
-                        <label htmlFor='phoneNumber'>Số điện thoại</label>
+                        <label htmlFor="phoneNumber">Số điện thoại</label>
                       </div>
-                      <div className='form-group col-12'>
+                      <div className="form-group col-12">
                         <input
                           className={errors.email && "invalid-input"}
-                          type='email'
-                          id='email'
-                          name='email'
-                          placeholder=' '
+                          type="email"
+                          id="email"
+                          name="email"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
                           value={values.email}
                         />
                         {errors.email && touched.email ? (
-                          <p className='invalid-input'>{errors.email}</p>
+                          <p className="invalid-input">{errors.email}</p>
                         ) : null}
-                        <label htmlFor='email'>Email</label>
+                        <label htmlFor="email">Email</label>
                       </div>
-                      <div className='form-group col-12'>
+                      <div className="form-group col-12">
                         <input
-                          type='text'
+                          type="text"
                           className={errors.province && "invalid-input"}
-                          id='province'
-                          placeholder=' '
+                          id="province"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
                         />
                         {errors.province && touched.province ? (
-                          <p className='invalid-input'>{errors.province}</p>
+                          <p className="invalid-input">{errors.province}</p>
                         ) : null}
-                        <label htmlFor='province'>Tỉnh/thành phố</label>
+                        <label htmlFor="province">Tỉnh/thành phố</label>
                       </div>
-                      <div className='form-group col-6'>
+                      <div className="form-group col-6">
                         <input
-                          type='text'
+                          type="text"
                           className={errors.district && "invalid-input"}
-                          id='district'
-                          placeholder=' '
+                          id="district"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          name='district'
+                          name="district"
                         />
                         {errors.district && touched.district ? (
-                          <p className='invalid-input'>{errors.district}</p>
+                          <p className="invalid-input">{errors.district}</p>
                         ) : null}
-                        <label htmlFor='district'>Quận/huyện</label>
+                        <label htmlFor="district">Quận/huyện</label>
                       </div>
-                      <div className='form-group col-6'>
+                      <div className="form-group col-6">
                         <input
-                          type='text'
-                          id='sub-district'
+                          type="text"
+                          id="sub-district"
                           className={errors.ward && "invalid-input"}
-                          name='ward'
-                          placeholder=' '
+                          name="ward"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
                         />
                         {errors.ward && touched.ward ? (
-                          <p className='invalid-input'>{errors.ward}</p>
+                          <p className="invalid-input">{errors.ward}</p>
                         ) : null}
-                        <label htmlFor='sub-district'>Phường/xã</label>
+                        <label htmlFor="sub-district">Phường/xã</label>
                       </div>
-                      <div className='form-group col-12'>
+                      <div className="form-group col-12">
                         <input
                           className={
                             errors.addressdetail ? "invalid-input" : ""
                           }
-                          type='text'
-                          id='addressdetail'
-                          placeholder=' '
+                          type="text"
+                          id="addressdetail"
+                          placeholder=" "
                           onBlur={handleBlur}
                           onChange={handleChange}
-                          aria-describedby='home-number-help'
-                          name='addressdetail'
+                          aria-describedby="home-number-help"
+                          name="addressdetail"
                         />
                         {errors.addressdetail && touched.addressdetail ? (
-                          <p className='invalid-input'>
+                          <p className="invalid-input">
                             {errors.addressdetail}
                           </p>
                         ) : null}
-                        <label htmlFor='addressdetail'>
+                        <label htmlFor="addressdetail">
                           Số nhà, toà nhà, tên đường
                         </label>
                         <small>
@@ -387,16 +394,16 @@ const CheckoutPage = () => {
               </div>
             </div>
             <div
-              className='box payment-method'
-              data-aos='fade-left'
-              data-aos-once='true'
-              data-aos-durration='800'
+              className="box payment-method"
+              data-aos="fade-left"
+              data-aos-once="true"
+              data-aos-durration="800"
             >
-              <div className='box__heading'>
+              <div className="box__heading">
                 <span>3</span>
                 <h2>Phương thức thanh toán</h2>
               </div>
-              <form className='methods row'>
+              <form className="methods row">
                 {payments.map((item, index) => (
                   <label
                     key={index}
@@ -404,10 +411,10 @@ const CheckoutPage = () => {
                       payment !== item.name ? "disabled" : "checked"
                     }`}
                   >
-                    <span className='methods__custom-radio'>
+                    <span className="methods__custom-radio">
                       <input
-                        type='radio'
-                        autoComplete='off'
+                        type="radio"
+                        autoComplete="off"
                         value={item.name}
                         checked={payment === item.name}
                         onChange={(e) => setPayment(e.target.value)}
@@ -415,18 +422,18 @@ const CheckoutPage = () => {
                     </span>
                     <span className={"methods__icon"}>
                       {item.img ? (
-                        <img src={`/assets/${item.img}`} alt='' />
+                        <img src={`/assets/${item.img}`} alt="" />
                       ) : (
                         item.icon
                       )}
                     </span>
-                    <span className='methods__name'>{item.message}</span>
+                    <span className="methods__name">{item.message}</span>
                   </label>
                 ))}
-                <div className='formBtn'>
+                <div className="formBtn">
                   <button
-                    type='button'
-                    className='confirm-btn'
+                    type="button"
+                    className="confirm-btn"
                     disabled={payment === undefined}
                     onClick={() =>
                       formRef.current && formRef.current.handleSubmit()

@@ -3,8 +3,41 @@ const Addresss = require("../address.json");
 const Orders = require("../models/Orders");
 const CryptoJS = require("crypto-js");
 const moment = require("moment");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
+const sender = process.env.EMAIL;
+const password = process.env.PASSWORD;
+let transporter = nodemailer.createTransport({
+  host: "smtp-mail.outlook.com",
+  port: 587,
+  secureConnection: false,
+  auth: {
+    user: `${sender}`, // generated ethereal user
+    pass: `${password}`, // generated ethereal password
+  },
+  tls: {
+    ciphers: "SSLv3",
+  },
+});
+function sendMail(desMail, Message, subject = "Chào Mừng Đến Với Avacado") {
+  transporter.sendMail({
+    from: `${sender}`, // sender address
+    to: `${desMail}`, // list of receivers
+    subject: `${subject}`, // Subject line
+    text: `${Message}`, // plain text body
+  });
+}
 
 function route(app) {
+  app.post("/api/email", (req, res) => {
+    sendMail(
+      req.body.email,
+      "Avocado đã nhận được yêu cầu của bạn. Chúng tôi rất hân hạnh được đồng hành cùng với bạn"
+    );
+    res.status(200).json({
+      message: "success",
+    });
+  });
   app.get("/api/product", (req, res, next) => {
     Products.find({})
       .then((data) => res.json(data))
@@ -25,11 +58,25 @@ function route(app) {
     else {
       const newOrder = new Orders(data);
       newOrder.save();
+      sendMail(
+        req.body.email,
+        `
+       Avocado Cảm Ơn Bạn Đã Mua Sản Phẩm Của Chúng Tôi.
+       Thông Tin Hóa Đơn:
+       Họ và Tên: ${req.body.name}
+       Số Điện thoại: ${req.body.phoneNumber}
+       Email: ${req.body.email}
+       Địa Chỉ Nhận Hàng: ${req.body.addressdetail}, ${req.body.ward}, ${req.body.district}, ${req.body.province}
+       Tổng Thanh Toán: ${req.body.Total}
+      `,
+        "Xác Nhận Đơn Hàng"
+      );
       res.json("Saved Successful");
     }
   });
 
   app.post("/api/vnpay-create-payment-url", (req, res, next) => {
+    console.log(req.body);
     var ipAddr =
       req.headers["x-forwarded-for"] ||
       req.connection.remoteAddress ||
@@ -84,6 +131,7 @@ function route(app) {
   });
 
   app.get("/api/vnpay-return", (req, res, next) => {
+    console.log(req.body);
     var vnp_Params = req.query;
 
     var secureHash = vnp_Params["vnp_SecureHash"];
@@ -102,6 +150,7 @@ function route(app) {
 
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
+
       res
         .status(200)
         .json({ message: "Success", code: vnp_Params["vnp_ResponseCode"] });

@@ -46,15 +46,15 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='checkout' element={<CheckoutPage />} />
-        <Route path='/product/:id' element={<ProductDetail />} />
-        <Route path='/purchase' element={<Purchase />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/purchase" element={<Purchase />} />
       </Routes>
       <ScrollToTop />
       <Footer />
       <ToastContainer
-        position='bottom-right'
+        position="bottom-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop
