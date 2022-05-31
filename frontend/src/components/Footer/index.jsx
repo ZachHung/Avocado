@@ -68,8 +68,8 @@ const Footer = () => {
             <br />
             <p>
               Email:{" "}
-              <a href='mailto: avocado-uit@outlook.com' className='secon-color'>
-                avocado-uit@outlook.com
+              <a href='mailto: vfruit-uit@outlook.com' className='secon-color'>
+                vfruit-uit@outlook.com
               </a>
             </p>
             <p>
