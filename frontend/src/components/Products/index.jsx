@@ -68,13 +68,20 @@ const Products = () => {
       <div className='container'>
         <div className='food-menu'>
           <h1>
-            What will <span className='primary-color'>you</span> eat today?
+            Hôm nay <span className='primary-color'>bạn</span> sẽ{" "}
+            <span className='primary-color'>mua gì ?</span>
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque
-            alias aliquam eveniet, iure praesentium dicta ex dolorum inventore
-            itaque minus repudiandae, odio provident? Velit architecto natus
-            expedita non? Odio, dolorum.
+            Chúng tôi cung cấp các loại bơ như{" "}
+            <span className='primary-color'>Bơ sáp Đăk Lăk</span>,{" "}
+            <span className='primary-color'>Bơ Booth</span>,{" "}
+            <span className='primary-color'>Bơ 034</span>,... cũng như các sản
+            phẩm được làm từ bơ khác như{" "}
+            <span className='primary-color'>Tinh dầu Bơ</span>,{" "}
+            <span className='primary-color'>Sinh tố Bơ</span> và{" "}
+            <span className='primary-color'>Kem Bơ</span> . Khi mua chúng tôi
+            đảm bảo các sản phẩm đều tương ngon, bổ rẻ, giữ mùi vị đăc trưng
+            riêng và chất lượng cao.
           </p>
           <div className='food-category'>
             <div data-aos='zoom-in' data-aos-duration='350'>

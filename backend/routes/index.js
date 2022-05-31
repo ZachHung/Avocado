@@ -32,7 +32,7 @@ function route(app) {
   app.post("/api/email", (req, res) => {
     sendMail(
       req.body.email,
-      "Avocado đã nhận được yêu cầu của bạn. Chúng tôi rất hân hạnh được đồng hành cùng với bạn"
+      "VFruit đã nhận được yêu cầu của bạn. Chúng tôi rất hân hạnh được đồng hành cùng với bạn"
     );
     res.status(200).json({
       message: "success",
@@ -61,7 +61,7 @@ function route(app) {
       sendMail(
         req.body.email,
         `
-       Avocado Cảm Ơn Bạn Đã Mua Sản Phẩm Của Chúng Tôi.
+       VFruit Cảm Ơn Bạn Đã Mua Sản Phẩm Của Chúng Tôi.
        Thông Tin Hóa Đơn:
        Họ và Tên: ${req.body.name}
        Số Điện thoại: ${req.body.phoneNumber}
@@ -150,7 +150,7 @@ function route(app) {
 
     if (secureHash === signed) {
       //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-
+      console.log({ message: "Success", code: vnp_Params["vnp_ResponseCode"] });
       res
         .status(200)
         .json({ message: "Success", code: vnp_Params["vnp_ResponseCode"] });

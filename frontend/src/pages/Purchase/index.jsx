@@ -1,12 +1,12 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 
 import "./style.scss";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
-import { resetForm } from "../../redux/cartSlice";
+import { resetCart, resetForm } from "../../redux/cartSlice";
 import { Request } from "../../utils";
 
 const Purchase = () => {
@@ -15,6 +15,10 @@ const Purchase = () => {
   const [form, setForm] = useState(null);
   const dispatch = useDispatch();
   const formData = useSelector((state) => state.formData);
+  const location = useLocation();
+
+  let state = location.state;
+
   useEffect(() => {
     setForm(formData);
     dispatch(resetForm());
@@ -23,11 +27,16 @@ const Purchase = () => {
         setReturnData(res.data);
         return res.data;
       })
-      .then(
-        (data) =>
-          data.message === "Success" &&
-          Request.post(`/order`, formData).catch((err) => console.log(err))
-      )
+      .then((data) => {
+        console.log(data);
+        if (data.code === "00") {
+          Request.post(`/order`, formData)
+            .then(() => {
+              dispatch(resetCart());
+            })
+            .catch((err) => console.log(err));
+        }
+      })
       .catch((err) => console.log(err));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -41,8 +50,7 @@ const Purchase = () => {
             data-aos-duration='500'
           >
             {returnData !== null ? (
-              (returnData.message === "Success" && form !== null) ||
-              form !== null ? (
+              returnData.code === "00" || state ? (
                 <section className='box '>
                   <h1 className='primary-color'>Thanh toán thành công</h1>
                   <FaCheckCircle className='primary-color' />

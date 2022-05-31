@@ -52,7 +52,14 @@ const Header = () => {
       <div className='nav'>
         <div className='menu-wrap'>
           <Link to='/'>
-            <div className='logo'>Avocado</div>
+            <div className='logo'>
+              {" "}
+              <img
+                src='https://cf.shopee.vn/file/0ce0d46a858fb639ff4629cb881207cc_tn'
+                alt=''
+              />
+              VFruit
+            </div>
           </Link>
           <div className='menu h-xs'>
             {navItem.map((item) => (

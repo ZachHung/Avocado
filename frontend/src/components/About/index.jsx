@@ -16,15 +16,17 @@ const About = () => {
           <div className='col-5 col-xs-12 align-items-center'>
             <div className='about-slogan ' data-aos='new-fade-left'>
               <h3>
-                <span className='primary-color'>We</span> create
-                <span className='primary-color'> delicious</span> memories for
-                <span className='primary-color'> you</span>
+                <span className='primary-color'>Tạo ra</span> những trải nghiệm
+                <span className='primary-color'> khó quên </span> cho
+                <span className='primary-color'> bạn</span>
               </h3>
               <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio
-                natus placeat et eos, dignissimos voluptatem tempora
-                necessitatibus doloribus! Eum qui doloribus odio dolor tenetur
-                nihil impedit vero magni, distinctio soluta!
+                Sản phẩm chúng tôi là sản phẩm bơ Đăk Lăk được lấy từ vườn tại
+                địa phương và đều đạt chuẩn{" "}
+                <span className='primary-color'>VietGAP</span>. Không những thế
+                các sản phẩm sau khi hái đều được chúng tôi bảo quản cẩn thận để
+                khi đến tay khách hàng vẫn giữ được vị tươi ngon, mùi vị đặc
+                trưng.
               </p>
             </div>
           </div>
