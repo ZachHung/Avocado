@@ -16,9 +16,9 @@ const About = () => {
           <div className='col-5 col-xs-12 align-items-center'>
             <div className='about-slogan ' data-aos='new-fade-left'>
               <h3>
-                <span className='primary-color'>Tạo ra</span> những trải nghiệm
-                <span className='primary-color'> khó quên </span> cho
-                <span className='primary-color'> bạn</span>
+                Giá trị
+                <span className='primary-color'> thật</span>, ấn tượng
+                <span className='primary-color'> thật </span>
               </h3>
               <p>
                 Sản phẩm chúng tôi là sản phẩm bơ Đăk Lăk được lấy từ vườn tại
